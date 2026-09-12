@@ -51,18 +51,6 @@ A impressora nunca é exposta à internet. O agente instalado no computador do r
 - ESC/POS via TCP
 - GitHub Actions para build, lint e testes
 
-## Começando
-
-Requisitos: Node.js 20.9 ou superior e um banco PostgreSQL.
-
-```bash
-npm install
-cp .env.example .env.local
-npm run dev
-```
-
-Abra `http://localhost:3000`. Para usar a API de pedidos, preencha `DATABASE_URL` em `.env.local` e execute o SQL de `database/schema.sql`.
-
 ## Variáveis de ambiente
 
 | Variável | Uso |
@@ -74,67 +62,5 @@ Abra `http://localhost:3000`. Para usar a API de pedidos, preencha `DATABASE_URL
 | `PRINT_AGENT_TOKEN` | Segredo de no mínimo 32 caracteres para a fila de impressão |
 | `ADMIN_TOKEN` | Segredo de no mínimo 32 caracteres para o painel operacional |
 | `RAFFINATO_MODE` | Deve permanecer `disabled` sem homologação do fornecedor |
-
-Gere tokens independentes e longos. Nunca publique `.env.local` ou credenciais no GitHub.
-
-## Comandos
-
-```bash
-npm run dev           # desenvolvimento
-npm run build         # build de produção
-npm run lint          # análise estática
-npm test              # todos os testes automatizados
-npm run test:printer  # cupom de teste no modo configurado
-```
-
-## Impressão na Elgin
-
-O diretório `print-agent/` contém o serviço local. No computador do restaurante:
-
-```bash
-cd print-agent
-copy .env.example .env
-npm start
-```
-
-Configure a URL publicada, o mesmo `PRINT_AGENT_TOKEN` e o IP da impressora. Para a Elgin identificada no ambiente de teste:
-
-```env
-PRINTER_MODE=network
-PRINTER_HOST=192.168.15.99
-PRINTER_PORT=9100
-```
-
-Veja [a instalação completa](docs/INSTALACAO-PEDIDOS-E-IMPRESSAO.md) antes do primeiro teste físico.
-
-## Publicação
-
-- **GitHub Pages:** publica automaticamente a demonstração segura da pasta `dist/`.
-- **Vercel:** executa a aplicação completa com banco, APIs, painel e fila de impressão.
-- **Domínio próprio:** remove o nome da plataforma da URL compartilhada.
-
-Veja o [passo a passo de publicação](docs/PUBLICACAO.md).
-
-## Limites operacionais
-
-- A comanda impressa é **não fiscal**.
-- Raffinato e NFC-e não estão integrados. O adaptador permanece desativado até o fornecedor disponibilizar API, credenciais e homologação.
-- O teste físico final depende da impressora ligada, com papel, IP correto e porta TCP 9100 acessível.
-- Preços, disponibilidade, dados do restaurante e localização de origem devem ser confirmados antes do uso comercial.
-
-## Documentação
-
-- [Instalação de pedidos e impressão](docs/INSTALACAO-PEDIDOS-E-IMPRESSAO.md)
-- [Integração Raffinato](docs/INTEGRACAO-RAFFINATO.md)
-- [Apresentação para LinkedIn](docs/LINKEDIN.md)
-- [Configuração do repositório no GitHub](docs/GITHUB.md)
-- [Publicação no GitHub e na Vercel](docs/PUBLICACAO.md)
-- [Política de segurança](SECURITY.md)
-
-## Licença
-
-Distribuído sob a licença MIT. Consulte [LICENSE](LICENSE).
-
----
 
 Desenvolvido por **Ian Antonio** · 2026
