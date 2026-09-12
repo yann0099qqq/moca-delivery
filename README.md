@@ -1,6 +1,6 @@
 # Moca Delivery
 
-Cardápio digital full stack para restaurante japonês, com carrinho, checkout, cálculo de entrega por distância, painel operacional e impressão automática de comandas em impressora térmica Elgin.
+Cardápio digital full stack para restaurante japonês, com carrinho, checkout, cálculo de entrega por distância, painel operacional e impressão automática.
 
 **Desenvolvido por Ian Antonio.**
 
