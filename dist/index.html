@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Demonstração do Moca Delivery: cardápio, carrinho e entrega por quilômetro.">
+  <meta name="author" content="Ian Antonio">
+  <meta property="og:title" content="Moca Delivery — pedidos e impressão térmica">
+  <meta property="og:description" content="Projeto full stack com cardápio, checkout, painel, PostgreSQL e integração ESC/POS.">
+  <meta property="og:type" content="website">
+  <title>Moca Delivery — demonstração</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090909'/%3E%3Cpath d='M15 43V24h8l1 3c2-3 5-4 8-4 4 0 7 2 8 5 2-3 5-5 9-5 7 0 10 4 10 12v8h-8v-7c0-5-1-7-4-7s-5 2-5 7v7h-8v-7c0-5-1-7-4-7s-5 2-5 7v7z' fill='%23f5f0e8'/%3E%3Ccircle cx='52' cy='15' r='5' fill='%23e31d2b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="location.css">
+</head>
+<body>
+  <div class="topline">PROJETO FULL STACK · PEDIDOS · IMPRESSÃO TÉRMICA</div>
+  <header>
+    <a class="brand" href="#inicio" aria-label="Moca Delivery">moca<span>.</span><small>DELIVERY</small></a>
+    <nav><a href="#cardapio">Cardápio</a><a href="#como-funciona">Como funciona</a><button id="open-cart">Pedido <b id="header-count">0</b></button></nav>
+  </header>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-copy"><p class="eyebrow">Sushi &amp; culinária japonesa</p><h1>Seu pedido,<br><em>do site à cozinha.</em></h1><p>Escolha, personalize e acompanhe o total. A comanda chega à impressora do restaurante por uma fila segura.</p><a href="#cardapio">Explorar cardápio <span>→</span></a></div>
+      <div class="hero-art" aria-label="Espaço reservado para fotografia"><span>moca<i>.</i></span><small>FOTO DO PRATO<br>EM BREVE</small></div>
+      <div class="hero-stats"><div><strong id="item-count">159</strong><span>itens</span></div><div><strong>R$ 1</strong><span>por km</span></div><div><strong>9100</strong><span>porta Elgin</span></div></div>
+    </section>
+
+    <section class="features" id="como-funciona">
+      <article><b>01</b><h2>Pedido validado</h2><p>Preços e entrega são recalculados no servidor.</p></article>
+      <article><b>02</b><h2>Fila confiável</h2><p>Idempotência, tentativas e histórico de impressão.</p></article>
+      <article><b>03</b><h2>Rede local</h2><p>A Elgin não fica exposta diretamente à internet.</p></article>
+    </section>
+
+    <section class="menu" id="cardapio">
+      <div class="section-title"><div><p class="eyebrow">Catálogo completo</p><h2>Escolha seu <em>favorito.</em></h2></div><p><span id="visible-count">0</span> opções encontradas</p></div>
+      <div class="search-row"><input id="search" type="search" placeholder="Buscar temaki, uramaki, combo…" aria-label="Buscar no cardápio"><button id="clear-search" type="button">Limpar</button></div>
+      <div class="categories" id="categories" aria-label="Categorias"></div>
+      <div class="grid" id="products"></div>
+      <div class="empty" id="empty" hidden><h3>Nenhum item encontrado</h3><p>Tente outro nome ou categoria.</p></div>
+    </section>
+  </main>
+
+  <footer><div class="brand">moca<span>.</span><small>DELIVERY</small></div><p>Projeto de portfólio · Next.js · TypeScript · PostgreSQL · ESC/POS</p><a href="#inicio">Voltar ao topo ↑</a></footer>
+
+  <button class="floating-cart" id="floating-cart" type="button"><span>Seu pedido</span><strong id="cart-summary">Carrinho vazio</strong><b id="cart-count">0</b></button>
+  <div class="backdrop" id="backdrop" hidden></div>
+  <aside class="cart" id="cart" aria-hidden="true">
+    <div class="cart-head"><div><small>Seu pedido</small><h2 id="drawer-count">0 itens</h2></div><button id="close-cart" aria-label="Fechar pedido">×</button></div>
+    <div class="cart-body" id="cart-items"></div>
+    <form id="checkout" class="checkout">
+      <h3>Finalizar demonstração</h3>
+      <label>Nome<input id="name" required placeholder="Seu nome"></label>
+      <label>Telefone<input id="phone" required inputmode="tel" placeholder="(83) 99999-9999"></label>
+      <div class="choice"><button class="active" data-type="Entrega" type="button">Entrega</button><button data-type="Retirada" type="button">Retirada</button></div>
+      <div id="delivery-fields">
+        <div class="location-card">
+          <div><span>Entrega por localização</span><strong id="location-value">R$ 1,00/km</strong></div>
+          <small id="location-status">Autorize sua localização para calcular a entrega automaticamente.</small>
+          <button id="use-location" type="button">Usar minha localização</button>
+        </div>
+        <label>Endereço<input id="address" required placeholder="Rua, número e bairro"></label>
+      </div>
+      <label>Pagamento<select id="payment"><option>Pix</option><option>Crédito</option><option>Débito</option><option>Dinheiro</option></select></label>
+      <div class="line"><span>Subtotal</span><strong id="subtotal">R$ 0,00</strong></div>
+      <div class="line" id="delivery-line"><span>Entrega</span><strong id="delivery-fee">R$ 0,00</strong></div>
+      <div class="line total"><span>Total</span><strong id="total">R$ 0,00</strong></div>
+      <button class="finish" type="submit">Simular envio do pedido <span>→</span></button>
+      <small>Na versão completa, o pedido é salvo no banco e entra na fila da Elgin.</small>
+    </form>
+  </aside>
+  <dialog id="success"><span>Pedido simulado</span><h2>Fluxo concluído.</h2><p>O carrinho, a entrega e o checkout funcionaram. A versão completa adiciona banco, painel e impressão.</p><button id="close-success">Continuar</button></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="menu.js"></script><script src="app.js"></script>
+</body>
+</html>

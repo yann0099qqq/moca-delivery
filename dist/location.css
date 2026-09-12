@@ -1,0 +1,50 @@
+.location-card {
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid #5a2025;
+  border-radius: 12px;
+  background: #211012;
+}
+
+.location-card > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.location-card span {
+  color: #aaa49c;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.location-card strong {
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.location-card small {
+  display: block;
+  margin: 8px 0 12px;
+  color: #aaa49c;
+  line-height: 1.45;
+}
+
+.location-card button {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: #e21d2b;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 12px 14px;
+}
+
+.location-card button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}

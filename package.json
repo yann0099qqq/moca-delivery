@@ -1,0 +1,35 @@
+{
+  "name": "moca-sushi-pedidos",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "npm run test:api && npm run test:delivery && npm run test:ticket",
+    "test:api": "node --import tsx tests/api-security.test.ts",
+    "test:delivery": "node --import tsx tests/delivery.test.ts",
+    "test:ticket": "node tests/ticket.test.mjs",
+    "test:printer": "node print-agent/src/test-print.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "tsx": "^4.21.0",
+    "typescript": "5.9.3"
+  },
+  "type": "module"
+}
